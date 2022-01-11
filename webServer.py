@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """ Module that defines a Python 3 web server example """
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+
+from socketserver import TCPServer
+from http.server import BaseHTTPRequestHandler
 import time
 from io import BytesIO
 import ssl
@@ -18,7 +20,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes("<html><head><title>Pesapal Python Web Server</title></head>", "utf-8"))
         self.wfile.write(bytes("<p>Request: %s</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("<body><p>This is the %s web server.</p>" % self.path, "utf-8"))
+        self.wfile.write(bytes("<body><p>This is the %s web service.</p>" % self.path, "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
 
     def do_POST(self):
@@ -34,7 +36,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(response.getvalue())
 
 if __name__ == "__main__":
-    webServer = HTTPServer((hostName, serverPort), MyServer)
+    webServer = TCPServer((hostName, serverPort), MyServer)
     webServer.socket = ssl.wrap_socket(webServer.socket,
                                        keyfile="./OpenSSL/key.pem",
                                        certfile="./OpenSSL/cert.pem", server_side=True)
