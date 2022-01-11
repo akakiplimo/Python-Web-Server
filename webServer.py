@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Module that defines a Python 3 web server example """
 
-
 from socketserver import TCPServer
 from http.server import BaseHTTPRequestHandler
 import time
