@@ -8,10 +8,10 @@ Support only a restricted subset of HTTP, i.e. GET or POST requests, and the onl
 ## How To Run
 - Generate key and cert files with OpenSSL use following command:
 ```  
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365___
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
 ```
 
 - Run the pythone file using the command:
 ```
-__python3 webServer.py__
+python3 webServer.py
 ```
