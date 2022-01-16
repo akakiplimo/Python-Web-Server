@@ -9,15 +9,16 @@
 ## How To Run
 - Generate key and cert files with OpenSSL use following command:
 ```  
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365___
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
 ```
 
 - Run the pythone file using the command:
 ```
-__python3 webServer.py__
+python3 webServer.py
 ```
 
-- On the browser, check on the url below once running to access the index page
+- On the browser, check on the url below once running to access the index page.
+> If another resource that does not exist is input in the browser e.g. https://localhost:8000/abcd.html, it shall be rewrited to the url below
 ```
 https://localhost:8000/index.html
 ```
