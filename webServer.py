@@ -1,26 +1,38 @@
 #!/usr/bin/python3
 """ Module that defines a Python 3 web server example """
 
+
 from socketserver import TCPServer
 from http.server import BaseHTTPRequestHandler
-import time
+from urllib.parse import urlparse
+import time, os
 from io import BytesIO
 import ssl
 
 hostName = "localhost"
-serverPort = 8000
+serverPort = 8001
 
 class MyServer(BaseHTTPRequestHandler):
     """ class that defines a web server """
     def do_GET(self):
         """ GET request """
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write(bytes("<html><head><title>Pesapal Python Web Server</title></head>", "utf-8"))
-        self.wfile.write(bytes("<p>Request: %s</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("<body><p>This is the %s web service.</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("</body></html>", "utf-8"))
+        # Parse query data to find out what was requested
+        parsedParams = urlparse(self.path)
+
+        # See if the file requested exists, else mod_rewrite
+        if os.access('.' + os.sep + parsedParams.path, os.R_OK):
+            # File exists, serve it up
+            f = open(os.curdir + os.sep + self.path, 'rb')
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html")
+            self.end_headers()
+            self.wfile.write(f.read())
+        else:
+            # redirect to index.html; mod_rewrite implementation
+            self.send_response(302)
+            self.send_header('Content-Type', 'text/html')  
+            self.send_header('location', '/index.html')  
+            self.end_headers()
 
     def do_POST(self):
         """ POST request """
